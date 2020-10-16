@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../pgdbatest"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"python.pythonPath": "Users/apple/Downloads/django_env/bin/python"
+		}
+	}
+}

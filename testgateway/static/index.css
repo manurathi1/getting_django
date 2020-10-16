@@ -1,0 +1,11 @@
+.questionDes {
+    float: left;
+    text-align:center;
+    /* font-size: 20px; */
+  }
+.detailed {
+    float: right;
+    text-align:center;
+    /* font-size: 15; */
+  }
+  

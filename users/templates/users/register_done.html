@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+
+   <p> welcome {{new_user}}</p>
+
+   {% if request.user.is_authenticated %}
+      <h2>{{ request.user.email }}</h2>
+      <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Fp8WQrYbQDSnBq"> </script> </form>
+   {% else %}
+      <h2> Please LogIn </h2>
+   
+   {% endif %}
+
+   
+
+</html>
