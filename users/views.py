@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UserRegisterForm 
+from django.contrib.auth import login, authenticate
 # Create your views here.
 
 def register(request):
@@ -12,8 +13,12 @@ def register(request):
 
             form.save()
             new_user = form.cleaned_data['username']
+            password2 = form.cleaned_data['password2']
 
-            return render(request, 'users/register_done.html', {'new_user' : new_user})
+            user = authenticate(username = new_user, password = password2)
+            login(request, user)
+            return redirect('question_view')
+            # return render(request, '', {'new_user' : new_user})
 
 
     else:

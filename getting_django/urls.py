@@ -21,7 +21,7 @@ from account.views import dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', questionView, name = "question_view"),
+    path('test/', questionView, name = "question_view"),
     path('fq/', questionFilterView , name = "question_filter"),
     # path('login/', auth_views.LoginView.as_view(), name = 'login'),
     # path('logout/', auth_views.LogoutView.as_view(template_name = "registration/logged_out.html"), name = 'logout'),

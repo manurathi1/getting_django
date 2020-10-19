@@ -1,4 +1,8 @@
+
+{% extends "base.html" %}
+
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +13,7 @@
 <link rel="stylesheet" href= "{% static 'index.css' %}">
 <body>
 
-    <div class="questionDes", data-id="0">
+   <!--  <div class="questionDes", data-id="0">
         
         start with a question
         
@@ -41,6 +45,54 @@
       <h2> Please LogIn </h2>
 
     {% endif %}
+ -->
+
+
+
+{% block content %}
+  
+    <div class="questionDes", data-id="0">
+        
+      start with a question
+      
+
+
+    </div>
+
+    <div class="detailed">      
+
+        {% for post in posts%}
+            <a href="#" class="button", data-id="{{ post.id }}"> {{ post.id }}</a>
+        {% endfor %}
+        
+    </div>
+
+    <div class="Buttons">
+
+      <button class="next">
+        NEXT
+      </button>
+
+
+    </div>
+
+    <h2>{{ request.user.email }}</h2>
+    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Fp8WQrYbQDSnBq" data-email_id = {{request.user.email}}> </script> </form>
+    
+    <!-- {% if request.user.is_authenticated %}
+      <h2>{{ user.email }}</h2>
+      <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Fp8WQrYbQDSnBq"> </script> </form>
+    {% else %}
+      <h2> Please LogIn </h2>
+
+    {% endif %} -->
+
+{% endblock content %}
+
+    
+
+
+
     <!-- {% for post in posts %}
 
     
@@ -135,3 +187,7 @@
 
 </body>
 </html>
+
+
+
+

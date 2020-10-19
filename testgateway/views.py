@@ -3,9 +3,11 @@ from .models import Questions
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def questionView(request):
     posts = Questions.objects.all() 
     return render(request, 'testgateway/show.html', {'posts': posts})

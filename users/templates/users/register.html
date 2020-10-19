@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
 <html>
 
+
+{% block content %}
     <form method="POST">
 
         {{form.as_p}}
@@ -10,5 +12,9 @@
         <!-- <p><input type="submit"> Sign Up</p> -->
 
     </form>
+    
+{% endblock content %}
+    
+
 
 </html>
