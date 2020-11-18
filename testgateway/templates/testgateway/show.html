@@ -9,6 +9,12 @@
     <meta charset="UTF-8" />
     <!-- <title>{% block title %}{% endblock %}</title>
     <link href="{% static "css/blog.css" %}" rel="stylesheet">  -->
+    <script
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"
+    ></script>
 </head>
 <link rel="stylesheet" href= "{% static 'index.css' %}">
 <body>
@@ -50,19 +56,31 @@
 
 
 {% block content %}
-  
-    <div class="questionDes", data-id="0">
-        
-      start with a question
       
+  
+    <div class="questionDes", data-id="{{ posts.first.id }}", data-total = "{{ posts.count }}" data-first = "{{ posts.first.id }}" data-qtime = "{{ 0000 }}">
 
+        <h2> {{posts.first.description}} </h2>
+        <input type="radio" name="choice" id="A" value="answerA" >
+        <label for= "A"> {{posts.first.answerA}} </label>
+
+        <input type="radio" name="choice" id="B" value="answerB" >
+        <label for= "B"> {{posts.first.answerB}} </label>
+
+        <input type="radio" name="choice" id="C" value="answerC" >
+        <label for= "C">  {{posts.first.answerC}} </label>
+
+        <input type="radio" name="choice" id="D" value="answerD" >
+        <label for= "D"> {{posts.first.answerD}} </label>
 
     </div>
 
     <div class="detailed">      
 
         {% for post in posts%}
-            <a href="#" class="button", data-id="{{ post.id }}"> {{ post.id }}</a>
+            <!-- <a href="#" class="button", data-id="{{ post.id }}"> {{ post.id }}</a> -->
+            <a href="#" class="button", data-id="{{ post.id }}"> {{ forloop.counter }}</a>
+
         {% endfor %}
         
     </div>
@@ -73,11 +91,15 @@
         NEXT
       </button>
 
+      <button class = "submit">
+        SUBMIT
+      </button>
+
 
     </div>
 
-    <h2>{{ request.user.email }}</h2>
-    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Fp8WQrYbQDSnBq" data-email_id = {{request.user.email}}> </script> </form>
+    <!-- <h2>{{ request.user.email }}</h2>
+    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Fp8WQrYbQDSnBq" data-email_id = {{request.user.email}}> </script> </form> -->
     
     <!-- {% if request.user.is_authenticated %}
       <h2>{{ user.email }}</h2>
@@ -87,7 +109,6 @@
 
     {% endif %} -->
 
-{% endblock content %}
 
     
 
@@ -102,7 +123,7 @@
     {% endfor %} -->
 
 
-
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script
       type="text/javascript"
       id="MathJax-script"
@@ -128,8 +149,22 @@
   
       $(document).ready(function(){
 
+        var startTime = new Date()
+        $('div.questionDes').data('qtime', startTime.getTime());
+        console.log(startTime.getTime());
+
         $('a.button').click(function(e){
             e.preventDefault();
+
+            var currentTime = new Date();
+            var prevTime = $('div.questionDes').data('qtime');
+            var timeTaken = currentTime.getTime() - prevTime;
+
+            console.log(prevTime);
+            console.log(currentTime.getTime());
+            console.log(timeTaken);
+
+
             $.post('{% url "question_filter" %}',
             {
                 questionId: $(this).data('id'),
@@ -144,8 +179,16 @@
 
                 // toggle link text
                 // console.log(instance);
-                $('div.questionDes').text(fields["description"]);
+                // MathJax.typeset()
+                // await MathJax.typesetPromise()
+                $('div.questionDes h2').text( fields["description"] );
+                $("label[for='A']").text(fields["answerA"]);
+                $("label[for='B']").text(fields["answerB"]);
+                $("label[for='C']").text(fields["answerC"]);
+                $("label[for='D']").text(fields["answerD"]);
+
                 $('div.questionDes').data('id', instance[0]["pk"]);
+                // $('div.questionDes').data('qtime', Date.now());
                 // console.log($('div.questionDes').data('id'));
                 }
             }
@@ -155,10 +198,22 @@
         $('button.next').click(function(e){
             e.preventDefault();
             var currentQuID = $('div.questionDes').data('id');
+            var total_questions = $('div.questionDes').data('total');
+            var first_question_id = $('div.questionDes').data('first');
+            var nextQuestionId = Math.min(currentQuID+1, first_question_id +  total_questions - 1);
 
+            var currentTime = new Date();
+            var prevTime = $('div.questionDes').data('qtime');
+            var timeTaken = currentTime.getTime() - prevTime;
+
+
+            // console.log('Iam IN')
+            // console.log(currentQuID+1);
+            // console.log(nextQuestionId);
             $.post('{% url "question_filter" %}',
             {
-                questionId: currentQuID + 1,
+                // questionId: currentQuID + 1,
+                questionId: nextQuestionId,
             },
             function(data){
                 console.log(data['status'])
@@ -170,9 +225,73 @@
 
                 // toggle link text
                 // console.log(instance);
-                $('div.questionDes').text(fields["description"]);
+                $('div.questionDes h2').text( fields["description"] );
+                $("label[for='A']").text(fields["answerA"]);
+                $("label[for='B']").text(fields["answerB"]);
+                $("label[for='C']").text(fields["answerC"]);
+                $("label[for='D']").text(fields["answerD"]);
                 // $('div.questionDes.css').
                 $('div.questionDes').data('id', instance[0]["pk"]);
+                
+                }
+            }
+            );
+        });
+
+
+
+        $('button.submit').click(function(e){
+            e.preventDefault();
+            var currentQuID = $('div.questionDes').data('id');
+            var total_questions = $('div.questionDes').data('total');
+            var first_question_id = $('div.questionDes').data('first');
+            var nextQuestionId = Math.min(currentQuID+1, first_question_id +  total_questions - 1);
+
+            var selectedValue = $("input:radio[name=choice]:checked").val();
+            console.log(selectedValue);
+
+            var currentTime = new Date();
+            var prevTime = $('div.questionDes').data('qtime');
+            var timeTaken = currentTime.getTime() - prevTime;
+
+            console.log(prevTime);
+            console.log(currentTime.getTime());
+            console.log(timeTaken);
+
+            
+            console.log(timeTaken);
+            $.post('{% url "question_submit" %}',
+            {
+                questionId: currentQuID,
+                submitAns: selectedValue,
+                timeTaken: timeTaken
+            },
+            );
+
+
+
+            $.post('{% url "question_filter" %}',
+            {
+                questionId: nextQuestionId,
+            },
+            function(data){
+                console.log(data['status'])
+                if (data['status'] == 'ok')
+                {
+
+                var instance = JSON.parse(data["desiredQuestion"]);
+                var fields = instance[0]["fields"];
+
+                // toggle link text
+                // console.log(instance);
+                $('div.questionDes h2').text( fields["description"] );
+                $("label[for='A']").text(fields["answerA"]);
+                $("label[for='B']").text(fields["answerB"]);
+                $("label[for='C']").text(fields["answerC"]);
+                $("label[for='D']").text(fields["answerD"]);
+                // $('div.questionDes.css').
+                $('div.questionDes').data('id', instance[0]["pk"]);
+                $('div.questionDes').data('qtime', currentTime.getTime());
                 
                 }
             }
@@ -184,7 +303,7 @@
         // {% endblock %}
       });
     </script>
-
+{% endblock content %}
 </body>
 </html>
 

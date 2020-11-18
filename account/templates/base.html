@@ -6,6 +6,12 @@
             {% block title %} {% endblock %}
         </title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <script
+        type="text/javascript"
+        id="MathJax-script"
+        async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"
+        ></script>
     </head>
     <body>
         <div id = "header">
@@ -17,12 +23,16 @@
                 <li> <a href="{%url 'dashboard'%}"> My dashboard</a>  </li>
                 <li> <a href="{% url 'logout'%}"> Logout</a>    </li>
 
+                <p>
+                    $$My \;name\; aakash\; gangwar.$$ $$I \;live \;in \;mumbai.$$
+                </p>
+
             {% else %}
                  <li> <a href="{% url 'login'%}"></a> login </li>
 
             {% endif %}
             <!-- <span class = "user"> -->
-
+            
 
 
 

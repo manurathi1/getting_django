@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'question_view'
+LOGIN_REDIRECT_URL = 'test_main'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 

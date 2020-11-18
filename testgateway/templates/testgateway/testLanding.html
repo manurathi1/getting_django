@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+
+</head>
+<body>
+    
+    {% block content %}
+        
+        
+        {% for test in tests %}
+
+            <a href="{{ test.get_absolute_url }}"> {{ test.slug }}</a>
+            
+        {% endfor %}
+            
+          <p>
+            When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and
+            they are \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
+            $$\left(e^{x}+e^{-x}\right)^{3}+3\left(e^{x}+e^{-x}\right)^{2}+3\left(e^{x}+e^{-x}\right)=7$$
+          </p>
+          $$x=\frac{-b+\sqrt{b^2-4ac}}{2a}$$ $$\sqrt{2}$$
+          <p>The equation \(e^{\sin x}-e^{-\sin x}=4\) has:</p>
+          <p>
+            $$My \;name\; aakash\; gangwar.$$ $$I \;live \;in \;mumbai.$$
+          </p>
+          <p>
+            When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+            \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
+          </p>
+
+
+    {% endblock content %}
+        
+
+</body>
+</html>
